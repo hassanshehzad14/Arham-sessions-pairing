@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARHAM-MD | Secure Pairing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #4cc9f0;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4bb543;
+      --danger: #e63946;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--dark);
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .tagline {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .card-title i {
+      color: var(--primary);
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #e1e5e9;
+      border-radius: var(--radius);
+      font-size: 15px;
+      transition: var(--transition);
+      background: #fafbfc;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    
+    .result-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: var(--radius);
+      border: 1px dashed rgba(67, 97, 238, 0.3);
+      display: none;
+    }
+    
+    .result-title {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    
+    .code-text {
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      word-break: break-all;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .action-buttons .btn {
+      flex: 1;
+    }
+    
+    .qr-section {
+      text-align: center;
+    }
+    
+    .qr-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px;
+      background: white;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    .qr-placeholder {
+      color: var(--gray);
+      font-size: 14px;
+      padding: 20px;
+    }
+    
+    .qr-instructions {
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+    
+    .channel-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .channel-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    }
+    
+    .channel-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    
+    .channel-description {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .btn-channel {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+    }
+    
+    .btn-channel:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(150%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      border-left: 4px solid var(--success);
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification i {
+      color: var(--success);
+      font-size: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        gap: 20px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .qr-container {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-link"></i>
+        </div>
+        <div class="logo-text">ARHAM-MD</div>
+      </div>
+      <div class="tagline">Secure Device Pairing System</div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title"><i class="fas fa-key"></i> Generate Pairing Code</h2>
+      <div class="input-group">
+        <label class="input-label" for="number">Phone Number</label>
+        <input id="number" class="input-field" type="tel" placeholder="e.g. 923001234567">
+      </div>
+      <button id="generateBtn" class="btn btn-primary">
+        <i class="fas fa-bolt"></i> Generate Code
+      </button>
+      
+      <div id="result" class="result-box">
+        <div class="result-title">Your Pairing Code</div>
+        <div class="code-text" id="codeText"></div>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="copyCode()">
+            <i class="fas fa-copy"></i> Copy Code
+          </button>
+          <button class="btn btn-success" onclick="sendCode()">
+            <i class="fas fa-paper-plane"></i> Send via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card qr-section">
+      <h2 class="card-title"><i class="fas fa-qrcode"></i> QR Code Pairing</h2>
+      <div class="qr-container">
+        <div class="qr-placeholder" id="qrBox">
+          <i class="fas fa-qrcode" style="font-size: 40px; margin-bottom: 10px; opacity: 0.5;"></i>
+          <div>Generate a code to view QR</div>
+        </div>
+      </div>
+      <p class="qr-instructions">Scan this QR code with your device to pair instantly</p>
+    </div>
+    
+    <div class="card channel-card">
+      <h3 class="channel-title">Follow Our Channel</h3>
+      <p class="channel-description">Get the newest ARHAM-MD tools and updates directly on WhatsApp</p>
+      <a href="https://whatsapp.com/channel/0029VbBOsFL96H4LmUFRHz3b" target="_blank" class="btn btn-channel">
+        <i class="fab fa-whatsapp"></i> Follow on WhatsApp
+      </a>
+    </div>
+    
+    <div class="footer">
+      &copy; 2023 ARHAM-MD. All rights reserved.
+    </div>
+  </div>
+  
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <div class="notification-text">Code copied to clipboard!</div>
+  </div>
+
+  <script>
+    async function getPair(){
+      const num=document.getElementById('number').value.trim();
+      if(!num)return alert("Enter a valid number");
+      const btn=document.getElementById('generateBtn');
+      btn.disabled=true;btn.textContent="Generating...";
+      try{
+        const res=await fetch(`/pair?number=${num}`);
+        const data=await res.json();
+        document.getElementById('result').style.display='block';
+        document.getElementById('codeText').innerText=data.code||"Error";
+      }catch(e){
+        alert("Server error or invalid response");
+      }
+      btn.disabled=false;btn.textContent="Generate Code";
+    }
+    document.getElementById('generateBtn').addEventListener('click',getPair);
+    function copyCode(){
+      const c=document.getElementById('codeText').innerText;
+      navigator.clipboard.writeText(c);
+      alert("Code copied");
+    }
+  </script>
+</body>
+</html>
